@@ -9,14 +9,15 @@ env:
     - machine_user=travis
     - machine_pass=travis
     - machine_port=22
-  - distribution: centos
-    version: 7
-    ansible_version: latest
-    suite: default
-  - distribution: ubuntu
-    version: 16.04
-    ansible_version: latest
-    suite: default
+  matrix:
+    - distribution: centos
+      version: 7
+      ansible_version: latest
+      suite: default
+    - distribution: ubuntu
+      version: 16.04
+      ansible_version: latest
+      suite: default
   
 cache: pip
   
