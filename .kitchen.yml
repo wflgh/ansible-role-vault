@@ -1,7 +1,11 @@
 ---
   driver:
-    name: localhost
-    privileged: true
+    name: proxy
+    host: localhost
+    reset_command: "exit 0"
+    port: <%= ENV["machine_port"] %>
+    username: <%= ENV["machine_user"] %>
+    password: <%= ENV["machine_password"] %>
   
   provisioner:
     name: ansible

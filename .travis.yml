@@ -1,35 +1,43 @@
 ---
-  language: python
-  python: "2.7"
+sudo: required
+
+language: python
+python: "2.7"
   
-  env:
-    - distribution: centos
-      version: 7
-      ansible_version: latest
-      suite: default
-    - distribution: ubuntu
-      version: 16.04
-      ansible_version: latest
-      suite: default
+env:
+  global:
+    - machine_user=travis
+    - machine_pass=travis
+    - machine_port=22
+  - distribution: centos
+    version: 7
+    ansible_version: latest
+    suite: default
+  - distribution: ubuntu
+    version: 16.04
+    ansible_version: latest
+    suite: default
   
-  cache: pip
+cache: pip
   
-  before_install:
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq python-apt python-pycurl git python-pip ruby ruby-dev build-essential autoconf
-    - gem install bundler
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq python-apt python-pycurl git python-pip ruby ruby-dev build-essential autoconf
+  - gem install bundler
+  - sudo usermod -p "`openssl passwd -1 'travis'`" travis
+ 
+install:
+  - bundle install
+  - if [ "${ansible_version}" = "latest" ]; then pip install ansible; else pip install ansible==${ansible_version}; fi
   
-  install:
-    - bundle install
-    - if [ "${ansible_version}" = "latest" ]; then pip install ansible; else pip install ansible==${ansible_version}; fi
+script:
+  - ansible --version
+  - sudo locale-gen en_GB.UTF-8
+  - bundle show
+  - LANG=en_GB.UTF-8 bundle exec kitchen --version
+  - LANG=en_GB.UTF-8 bundle exec kitchen test ${suite}-${distribution}-${version//./} -d always
+  - cat .kitchen/logs/kitchen.log
   
-  script:
-    - ansible --version
-    - sudo locale-gen en_GB.UTF-8
-    - bundle show
-    - LANG=en_GB.UTF-8 bundle exec kitchen --version
-    - LANG=en_GB.UTF-8 bundle exec kitchen test ${suite}-${distribution}-${version//./} -d always
-  
-  after_success:
-    - echo "Success"
+after_success:
+  - echo "Success"
   
