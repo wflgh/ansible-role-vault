@@ -1,0 +1,53 @@
+---
+
+# Add the vault user and group
+- name: "Add Vault user"
+  user:
+    name: "{{ vault_user }}"
+    comment: "Vault user"
+    group: "{{ vault_group }}"
+    system: yes
+
+- name: Install prereq packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ vault_prereq_packages }}"
+
+- name: Download Vault
+  get_url: 
+    url: "{{ vault_archive_url }}" 
+    dest: "{{ role_path }}/files/{{ vault_archive }}" 
+    timeout: "60"
+  become: no
+  run_once: true
+
+- name: Unarchive Vault
+  unarchive: 
+    src: "{{ role_path }}/files/{{ vault_archive }}" 
+    dest: "{{ role_path }}/files/" 
+    creates: "{{ role_path }}/files/vault"
+  become: no
+  run_once: true
+
+- name: Install Vault
+  copy:
+    src: "{{ role_path }}/files/vault"
+    dest: "{{ vault_bin_path }}"
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: "0755"
+
+- name: Set cap_ipc_lock=+ep on vault
+  capabilities:
+    path: "{{ vault_bin_path}}/vault"
+    capability: cap_ipc_lock=+ep
+    state: present
+
+- name: Cleanup
+  file: 
+    path: "{{ item }}" 
+    state: "absent"
+  become: no
+  with_fileglob: "{{ role_path }}/files/vault"
+  run_once: true

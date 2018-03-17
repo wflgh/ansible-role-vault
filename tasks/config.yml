@@ -1,0 +1,19 @@
+---
+
+- name: Create directories
+  file:
+    dest: "{{ item }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group}}"
+  with_items:
+    - "{{ vault_config_path }}"
+
+- name: Listener configuration
+  template:
+    src: vault.hcl.j2
+    dest: "{{ vault_config_path }}/vault.hcl"
+    owner:  "{{ vault_user }}"
+    group:  "{{ vault_group }}"
+    mode: "0400"
+  notify: restart vault service

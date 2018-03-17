@@ -1,0 +1,19 @@
+galaxy_info:
+  author: wflgh
+  description: Install Hashicorp Vault
+  license: 3-clause BSD license.
+  min_ansible_version: 1.6
+  platforms:
+    - name: EL
+      versions:
+        - 7
+    - name: Ubuntu
+      versions:
+        - xenial
+  galaxy_tags:
+    - CentOS
+    - RedHat
+    - Ubuntu
+    - Hashicorp
+    - Vault
+  dependencies: []

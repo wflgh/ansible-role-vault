@@ -1,0 +1,30 @@
+[Unit]
+Description=Hashicorp Vault
+Requires=network-online.target {% if vault_backend == 'consul.j2' %} consul.service {% endif %}
+After=network-online.target {% if vault_backend == 'consul.j2' %} consul.service {% endif %}
+
+[Service]
+EnvironmentFile=/etc/environment
+User={{ vault_user }}
+Group={{ vault_group }}
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=read-only
+SecureBits=keep-caps
+Capabilities=CAP_IPC_LOCK+ep
+CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
+NoNewPriviliges=yes
+PIDFile=/var/run/vault/vault.pid
+ExecStart={{ vault_bin_path }}/vault server -config={{ vault_config_path }}
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+KillSignal=SIGTERM
+Restart=on-failure
+RestartSec=30s
+StartLimitInterval=60s
+StartLimitBurst=3
+TimeoutStop=30s
+
+[Install]
+WantedBy=multi-user.target

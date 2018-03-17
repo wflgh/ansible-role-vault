@@ -1,0 +1,7 @@
+
+listener "tcp" {
+  address = "{{ vault_address }}:{{ vault_port }}"
+  tls_disable = 1
+}
+
+% include vault_backend with context %}

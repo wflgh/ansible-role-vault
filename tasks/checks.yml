@@ -1,0 +1,21 @@
+---
+  # Check for compatibility
+  
+  - name: Check distribution compatibility
+    fail:
+      msg: "This role does not support {{ ansible_distribution }}"
+    when: ansible_distribution not in ['RedHat', 'CentOS', 'Ubuntu']
+  
+  - name: Check for version of Redhat / CentOS
+    fail:
+      msg: "This role does not support {{ ansible_distribution }} {{ ansible_distribution_version }}"
+    when:
+      - ansible_distribution in ['RedHat', 'CentOS']
+      - ansible_distribution_version|version_compare(7, '<')
+  
+  - name: Check for version of Ubuntu
+    fail:
+      msg: "This role does not support {{ ansible_distribution }} {{ ansible_distribution_version }}"
+    when:
+      - ansible_distribution == "Ubuntu"
+      - ansible_distribution_version|version_compare(16.04, '<')

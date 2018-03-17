@@ -1,0 +1,16 @@
+---
+
+- name: Check for OS compatability
+  include_tasks: checks.yml
+
+- name: Include OS-specific vars
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install OS packages and Vault via control host
+  include_tasks: install.yml
+
+- name: Configure Vault
+  include_tasks: config.yml
+
+- name: Set up Vault service
+  include_tasks: service.yml

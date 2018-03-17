@@ -1,0 +1,25 @@
+---
+
+ ### Vault user and group
+vault_user: vault
+vault_group: vault
+
+### Vault archive
+vault_version: "0.9.5"
+vault_archive: "vault_{{ vault_version }}_linux_amd64.zip"
+vault_archive_url: "https://releases.hashicorp.com/vault/{{ vault_version }}/{{ vault_archive }}"
+
+### Install paths
+vault_bin_path: /usr/local/bin
+vault_config_path: /etc/vault
+
+### Vault settings
+vault_port: 8200
+vault_max_lease_ttl: "24h"
+vault_default_lease_ttl: "24h"
+vault_backend: consul.j2
+
+# Consul settings
+consul_address: 0.0.0.0
+consul_port: 8500
+consul_path: "vault/"
