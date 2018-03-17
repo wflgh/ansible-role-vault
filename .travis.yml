@@ -7,7 +7,7 @@ python: "2.7"
 env:
   global:
     - machine_user=travis
-    - machine_pass=travis
+    - machine_password=travis
     - machine_port=22
   matrix:
     - distribution: centos
