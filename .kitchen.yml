@@ -1,0 +1,38 @@
+---
+  driver:
+    name: docker
+    privileged: true
+  
+  provisioner:
+    name: ansible
+    hosts: localhost
+    require_chef_for_busser: false
+    require_ruby_for_busser: true
+    ansible_verbosity: 2
+    ansible_verbose: true
+  
+  platforms:
+    - name: centos-7
+      verifier:
+        bundler_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/bundler-*/exe
+        rspec_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/rspec-core-*/exe
+        default_pattern: true
+    - name: ubuntu-16.04
+  
+  verifier:
+    name: serverspec
+    sudo: true
+    sudo_path: true
+  
+  suites:
+    - name: default
+      includes:
+        - centos-7
+        - ubuntu-16.04
+      provisioner:
+        name: ansible_playbook
+        playbook: tests/integration/default/test.yml
+      verifier:
+        patterns:
+          - "roles/*/tests/integration/default/serverspec/*_spec.rb"
+  
