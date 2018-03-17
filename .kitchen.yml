@@ -1,6 +1,6 @@
 ---
   driver:
-    name: docker
+    name: localhost
     privileged: true
   
   provisioner:
