@@ -1,4 +1,4 @@
 ---
 
-  vault_os_packages:
+  vault_prereq_packages:
     - unzip
