@@ -1,7 +1,12 @@
 ---
 
 # Add the vault user and group
-- name: "Add Vault user"
+- name: Add Vault group
+  group:
+    name: "{{ vault_group }}"
+    state: present
+
+- name: Add Vault user
   user:
     name: "{{ vault_user }}"
     comment: "Vault user"
