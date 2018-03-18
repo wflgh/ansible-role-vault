@@ -1,11 +1,7 @@
 ---
   driver:
-    name: proxy
-    host: localhost
-    reset_command: "exit 0"
-    port: <%= ENV["machine_port"] %>
-    username: <%= ENV["machine_user"] %>
-    password: <%= ENV["machine_password"] %>
+    name: docker
+    privileged: true
   
   provisioner:
     name: ansible
@@ -17,11 +13,13 @@
   
   platforms:
     - name: centos-7
+      dockerfile: tests/Dockerfile.Centos-7
       verifier:
         bundler_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/bundler-*/exe
         rspec_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/rspec-core-*/exe
         default_pattern: true
     - name: ubuntu-16.04
+      dockerfile: tests/Dockerfile.Ubuntu-xenial
   
   verifier:
     name: serverspec
