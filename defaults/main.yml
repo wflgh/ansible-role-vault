@@ -14,7 +14,7 @@ vault_bin_path: /usr/local/bin
 vault_config_path: /etc/vault
 
 ### Vault settings
-vault_adress: 127.0.0.1
+vault_address: 127.0.0.1
 vault_port: 8200
 vault_max_lease_ttl: "24h"
 vault_default_lease_ttl: "24h"
