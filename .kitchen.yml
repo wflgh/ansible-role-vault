@@ -2,6 +2,11 @@
   driver:
     name: docker
     privileged: true
+    run_command: /bin/systemd
+    cap_add:
+      - SYS_ADMIN
+    volume:
+      - /sys/fs/cgroup
   
   provisioner:
     name: ansible
@@ -17,7 +22,6 @@
       verifier:
         bundler_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/bundler-*/exe
         rspec_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/rspec-core-*/exe
-        default_pattern: true
     - name: ubuntu-16.04
       dockerfile: tests/Dockerfile.Ubuntu-xenial
   
