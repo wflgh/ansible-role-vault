@@ -18,12 +18,14 @@
   
   platforms:
     - name: centos-7
-      dockerfile: tests/Dockerfile.Centos-7
+      driver_config:
+        dockerfile: tests/Dockerfile.Centos-7
       verifier:
         bundler_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/bundler-*/exe
         rspec_path: /opt/rh/ruby200/root/usr/local/share/gems/gems/rspec-core-*/exe
     - name: ubuntu-16.04
-      dockerfile: tests/Dockerfile.Ubuntu-xenial
+      driver_config:
+        dockerfile: tests/Dockerfile.Ubuntu-xenial
   
   verifier:
     name: serverspec
