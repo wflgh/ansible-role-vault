@@ -16,4 +16,3 @@
     owner:  "{{ vault_user }}"
     group:  "{{ vault_group }}"
     mode: "0400"
-  notify: restart vault service
